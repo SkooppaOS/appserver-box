@@ -5,6 +5,7 @@ A vagrant box (created by [Puphpet.com](https://puphpet.com/)) to get up a runni
 NOTE: This setup is for local development only! Do not use this box in a production environment!
 
 ###What Do You Get?
+___
 
 
 appserver-box installs the following software automatically on the guest VM.
@@ -21,6 +22,7 @@ appserver-box installs the following software automatically on the guest VM.
 and the standard packages for Debian.
 
 ###Installation Instructions
+____
 
 **Prerequisites**
 
@@ -69,6 +71,7 @@ If you want to use the web clients for OrientDB, you can do that too.
 Also under '/home/vagrant/` you'll find the install directories for the database. ODB's console is also available there.
 
 ###Other Considerations and Options
+_____
 
 **Other providers**(currently untested!)
 
