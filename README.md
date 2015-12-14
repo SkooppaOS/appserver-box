@@ -18,7 +18,7 @@ appserver-box installs the following software automatically on the guest VM.
 - PHPUnit (globally)
 - Git
 
-and the standard packages for Ubuntu.
+and the standard packages for Debian.
 
 ###Installation Instructions
 
