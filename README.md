@@ -50,25 +50,19 @@ The server can be found under the IP address `192.168.33.10`.
 ```
 http://192.168.33.10
 ``` 
-**Final Steps to use PHPMyAdmin**
+**How to use PHPMyAdmin**
 
-The PHPMyAdmin setup can now be found under 
+PHPMyAdmin can be found under 
 
 ```
-http://192.168.33.10/phpmyadmin/setup
+http://192.168.33.10/phpmyadmin
 ``` 
 
 The user and password for PHPMyAdmin is "root".
 
+Your in!
+
 NOTE: This setup is for local development only! Do not use this box in a production environment!
-
-**Working with the Graph Database**
-
-If you want to use the web clients for OrientDB, you can do that too. 
-
-**OrientDB:** http://192.168.33.10:2480
-
-Also under '/home/vagrant/` you'll find the install directories for the database. ODB's console is also available there.
 
 ###Other Considerations and Options
 _____
@@ -85,7 +79,7 @@ All the initialization and startup files are located under `/puphet/files`. The 
 
 **Custom Configuration of the Vagrant Box**
 
-You can also customize the box too, if you'd like. Under `/puphpet` copy the `config.yaml`file and rename it to `config-custom.yaml` and save it in the same place. Make any changes you'd like in that file. There are also more possibilities to customize the `appserver-box` through the tools made available by Puphpet. To read more about that visit the [Puphpet website](https://puphpet.com/) (click on "Help!").
+You can also customize the box too, if you'd like. Under `/puphpet` copy the `config.yaml`file and rename it to `config-custom.yaml` and save it in the same directory. Make any changes you'd like in that file. There are also more possibilities to customize the `appserver-box` through the tools made available by Puphpet. To read more about that visit the [Puphpet website](https://puphpet.com/) (click on "Help!").
 
 **Host File Changes**
 
