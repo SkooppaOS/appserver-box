@@ -10,7 +10,7 @@ ___
 
 appserver-box installs the following software automatically on the guest VM.
 
-- appserver 1.1.0
+- appserver 1.1.1
 - PHP5.6 (PHP-FPM and CLI)
 - Debian Wheezy 64bit
 - MariaDB 10.1
