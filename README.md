@@ -12,14 +12,14 @@ appserver-box installs the following software automatically on the guest VM.
 
 - appserver 1.1.1
 - PHP5.6 (PHP-FPM and CLI)
-- Debian Wheezy 64bit
+- Ubuntu 14.04 64bit
 - MariaDB 10.1
 - PHPMyAdmin
 - Composer (globally)
 - PHPUnit (globally)
 - Git
 
-and the standard packages for Debian.
+and the standard packages for Ubuntu.
 
 ###Installation Instructions
 ____
