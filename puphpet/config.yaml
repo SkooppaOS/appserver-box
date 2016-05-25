@@ -1,28 +1,35 @@
 vagrantfile:
     target: local
     vm:
-        box: puphpet/debian75-x64
-        box_url: puphpet/debian75-x64
-        hostname: appserver-box
-        memory: '2048'
-        cpus: '1'
-        chosen_provider: virtualbox
-        network:
-            private_network: 192.168.33.10
-            forwarded_port:
-                vflnp_q1ueu63yelr5:
-                    host: '7003'
-                    guest: '22'
-        post_up_message: ''
         provider:
-            virtualbox:
-                modifyvm:
-                    natdnshostresolver1: 'on'
-                showgui: '0'
-            vmware:
-                numvcpus: 1
-            parallels:
-                cpus: 1
+            local:
+                box: puphpet/ubuntu1404-x64
+                box_url: puphpet/ubuntu1404-x64
+                box_version: '0'
+                chosen_virtualizer: virtualbox
+                virtualizers:
+                    virtualbox:
+                        modifyvm:
+                            natdnshostresolver1: false
+                        showgui: 0
+                    vmware:
+                        numvcpus: 1
+                    parallels:
+                        use_linked_clone: 0
+                        check_guest_tools: 0
+                        update_guest_tools: 0
+                machines:
+                    vflm_1ambyj0j7lib:
+                        id: appserver-box
+                        hostname: appserver-box
+                        network:
+                            private_network: 192.168.33.10
+                            forwarded_port:
+                                vflmnfp_vv7rxi20zczr:
+                                    host: '7003'
+                                    guest: '22'
+                        memory: '2048'
+                        cpus: '1'
         provision:
             puppet:
                 manifests_path: puphpet/puppet/manifests
@@ -30,23 +37,51 @@ vagrantfile:
                 options:
                     - '--verbose'
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
-        synced_folder: {  }
+        synced_folder:
+            vflsf_1uv5xav8mfae:
+                source: ./webapps
+                target: /opt/appserver/webapps
+                sync_type: rsync
+                smb:
+                    smb_host: ''
+                    smb_username: ''
+                    smb_password: ''
+                    mount_options:
+                        dir_mode: '0775'
+                        file_mode: '0664'
+                rsync:
+                    args:
+                        - '--verbose'
+                        - '--archive'
+                        - '-z'
+                    exclude:
+                        - .vagrant/
+                        - .git/
+                    auto: 'true'
+                owner: www-data
+                group: www-data
         usable_port_range:
             start: 10200
             stop: 10500
+        post_up_message: ''
     ssh:
-        host: null
-        port: null
-        private_key_path: null
+        host: 'false'
+        port: 'false'
+        private_key_path: 'false'
         username: vagrant
-        guest_port: null
-        keep_alive: true
-        forward_agent: false
-        forward_x11: false
+        guest_port: 'false'
+        keep_alive: '1'
+        forward_agent: 'false'
+        forward_x11: 'false'
         shell: 'bash -l'
-        insert_key: false
+        insert_key: 'false'
     vagrant:
         host: detect
+    proxy:
+        http: ''
+        https: ''
+        ftp: ''
+        no_proxy: ''
 server:
     install: '1'
     packages:
@@ -59,16 +94,18 @@ users_groups:
 locale:
     install: '1'
     settings:
-        default_locale: ''
+        default_locale: en_US.UTF-8
         locales:
             - en_GB.UTF-8
             - en_US.UTF-8
+        timezone: UTC
 firewall:
     install: '1'
     rules:
-        fr_h1oez91c0wy2:
+        fr_hz6wxj6scqf5:
             port:
-                - '80'
+                - '2424'
+                - '2480'
             priority: '100'
             proto: tcp
             action: accept
@@ -87,11 +124,11 @@ nginx:
         names_hash_bucket_size: 128
     upstreams: {  }
     vhosts:
-        nxv_md1729rceood:
-            server_name: appserver.dev
+        nxv_m0utz5ouqva4:
+            server_name: awesome.dev
             server_aliases:
-                - www.appserver.dev
-            www_root: /var/www
+                - www.awesome.dev
+            www_root: /var/www/awesome
             listen_port: '80'
             index_files:
                 - index.html
@@ -107,10 +144,8 @@ nginx:
             rewrite_to_https: '1'
             spdy: '1'
             locations:
-                nxvl_b4xldfoe2al8:
+                nxvl_bhwyfqtt79zy:
                     location: /
-                    autoindex: 'off'
-                    internal: 'false'
                     try_files:
                         - $uri
                         - $uri/
@@ -120,10 +155,8 @@ nginx:
                     fastcgi_split_path: ''
                     proxy: ''
                     proxy_redirect: ''
-                nxvl_yt1mi2t2wcxv:
+                nxvl_l6zmi5l13ar5:
                     location: '~ \.php$'
-                    autoindex: 'off'
-                    internal: 'false'
                     try_files:
                         - $uri
                         - $uri/
@@ -142,6 +175,7 @@ nginx:
 apache:
     install: '0'
     settings:
+        version: 2.4
         user: www-data
         group: www-data
         default_vhost: true
@@ -152,11 +186,11 @@ apache:
         - proxy_fcgi
         - rewrite
     vhosts:
-        av_ejmceyim810r:
-            servername: appserver.dev
+        av_8wf6vlvncnt2:
+            servername: awesome.dev
             serveraliases:
-                - www.appserver.dev
-            docroot: /var/www
+                - www.awesome.dev
+            docroot: /var/www/awesome
             port: '80'
             setenv:
                 - 'APP_ENV dev'
@@ -171,8 +205,8 @@ apache:
             ssl_protocol: ''
             ssl_cipher: ''
             directories:
-                avd_dw8kua47zdn7:
-                    path: /var/www
+                avd_vbtjrwq38yvr:
+                    path: /var/www/awesome
                     options:
                         - Indexes
                         - FollowSymlinks
@@ -183,12 +217,17 @@ apache:
                         - 'all granted'
                     custom_fragment: ''
                     files_match:
-                        avdfm_4ja7iuo0mxve:
+                        avdfm_z6gpahofxr0s:
                             path: \.php$
                             sethandler: 'proxy:fcgi://127.0.0.1:9000'
                             custom_fragment: ''
                             provider: filesmatch
                     provider: directory
+letsencrypt:
+    install: '1'
+    settings:
+        email: ''
+    domains: {  }
 php:
     install: '1'
     settings:
@@ -197,7 +236,6 @@ php:
         php:
             - cli
             - intl
-            - mcrypt
         pear: {  }
         pecl: {  }
     ini:
@@ -208,7 +246,7 @@ php:
     fpm_ini:
         error_log: /var/log/php-fpm.log
     fpm_pools:
-        phpfp_7bklxa5kc6ea:
+        phpfp_oio0esouhb28:
             ini:
                 prefix: www
                 listen: '127.0.0.1:9000'
@@ -218,7 +256,7 @@ php:
     composer: '1'
     composer_home: ''
 xdebug:
-    install: '1'
+    install: '0'
     settings:
         xdebug.default_enable: '1'
         xdebug.remote_autostart: '0'
@@ -244,19 +282,29 @@ xhprof:
     install: '0'
 wpcli:
     install: '0'
-    version: v0.19.0
+    version: v0.21.1
 drush:
     install: '0'
-    version: 6.3.0
+    version: 8.0.5
 ruby:
     install: '1'
-    versions: {  }
+    versions:
+        rv_scozz0fwoube:
+            default: '1'
+            bundler: '1'
+            version: 1.9.3
+            gems:
+                - deep_merge
+                - activesupport
+                - vine
 python:
-    install: '0'
+    install: '1'
     packages: {  }
     versions: {  }
 nodejs:
     install: '0'
+    settings:
+        version: '5'
     npm_packages: {  }
 hhvm:
     install: '0'
@@ -277,19 +325,19 @@ mariadb:
     install: '1'
     settings:
         version: '10.1'
-        root_password: '123'
+        root_password: root
         override_options: {  }
     adminer: 0
     users:
-        mariadbnu_j5bva44kjjes:
+        mariadbnu_3n700vrqngds:
             name: dbuser
             password: '123'
     databases:
-        mariadbnd_99dff9tp1efy:
+        mariadbnd_4kn1kqobqwu8:
             name: dbname
             sql: ''
     grants:
-        mariadbng_8lx2out2x53k:
+        mariadbng_f2pshmhhpqgu:
             user: dbuser
             table: '*.*'
             privileges:
@@ -297,20 +345,20 @@ mariadb:
 mysql:
     install: '0'
     settings:
-        version: '5.5'
+        version: '5.6'
         root_password: '123'
         override_options: {  }
     adminer: 0
     users:
-        mysqlnu_ippovrknben3:
+        mysqlnu_mmeqfue0uwuo:
             name: dbuser
             password: '123'
     databases:
-        mysqlnd_i1ecz0u6von6:
+        mysqlnd_7744ypc66ckv:
             name: dbname
             sql: ''
     grants:
-        mysqlng_mr6opxu1nc9i:
+        mysqlng_mrbpky41h9li:
             user: dbuser
             table: '*.*'
             privileges:
@@ -330,7 +378,6 @@ postgresql:
 mongodb:
     install: '0'
     settings:
-        auth: 1
         bind_ip: 127.0.0.1
         port: '27017'
     globals:
@@ -339,9 +386,9 @@ mongodb:
 redis:
     install: '0'
     settings:
-        conf_port: '6379'
+        port: '6379'
 sqlite:
-    install: '0'
+    install: '1'
     adminer: 0
     databases: {  }
 mailhog:
@@ -373,8 +420,11 @@ rabbitmq:
 elastic_search:
     install: '0'
     settings:
-        version: 2.1.0
+        version: 2.3.1
         java_install: true
+    instances:
+        esi_c1jeke7a8zvv:
+            name: es-01
 solr:
     install: '0'
     settings:
