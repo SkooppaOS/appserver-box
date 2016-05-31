@@ -40,7 +40,7 @@ Once downloaded or cloned, go into the console on the host machine (or with Git 
 
 Note: It will take approximately 10-15 minutes for the VM to install and initialize. 
 
-Once you get the Puphpet "finished" screen in your console, you can log into the VM via SSH. Before that though, you'll need to set up your SSH client to read the private key, which was set up for you automatically. You can find the keys under 
+Once you get the Puphpet "Read Above" screen in your console, all should have gone well and you can log into the VM via SSH. Before that though, you'll need to set up your SSH client to read the private key, which was set up for you automatically. You can find the key under 
 
 `/vagrant/files/dot/ssh`
 
